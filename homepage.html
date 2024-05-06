@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Materialize css link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Charts css link -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/charts.css/dist/charts.min.css">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <!-- Command bar -->
+        <button type="button" onclick="inUitklappenZonnepanelen()">
+            <!-- In/uitklappen button -->
+            In- / Uitklappen zonnepaneel
+        </button>
+        <div>
+            <!-- Status zonnepanelen -->
+            Status zonnepaneel: <i id="statusZonnepaneel"></i>
+        </div>
+        <div>
+            <!-- Logo -->
+            <img src="Images/AaadlanderImgKlein.png">
+        </div>
+    </div>
+
+    <div>
+        <!-- Graphs -->
+        <!-- 
+            Haal een lijst op met entries, filter op de laatste 10/20 entries
+            Maak een rij aan voor elke opgehaalde entry.
+            De maximale value is 1, '0' is 0. Waardes ertussen worden berekend met de volgende formule:
+                decimaal value = ((value * 100) / maximale value) / 100
+            start is de vorige entry, end is de huidige entry
+        -->
+        <div id="stroomgrafiek">
+            <!-- Stroomgrafiek -->
+            <table class="charts-css line show-heading show-primary-axis">
+                <caption> Stroom over zonnepanelen in Ampère </caption>
+
+                <!-- Vervang voor stroomdata -->
+                <tbody>
+                    <tr>
+                        <th scope="row"> Label </th>
+                        <td style="--end: 0.2;"> <span class="data"> 2 mA </span> </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"> Label </th>
+                        <td style="--start: 0.2; --end: 0.4;"> <span class="data"> 4 mA </span> </td>
+                    </tr>
+                  </tbody>
+            </table>
+        </div>
+
+        <div id="spanninggrafiek">
+            <!-- Spanninggrafiek -->
+            <table class="charts-css line show-heading"> 
+                <caption> Spanning over zonnepanelen in Volt </caption>
+
+                <!-- Vervang voor spanningsdata -->
+                <tbody>
+                    <tr>
+                        <td style="--start: 0.2; --end: 0.4;"> <span class="data"> 4 V </span> </td>
+                    </tr>
+                </tbody>
+            </table>  
+        </div>
+    </div>
+
+    <script src="Scripts/homepage.js"></script>
+    <style>
+        #stroomgrafiek {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        #stroomgrafiek .line {
+            --aspect-ratio: 21 / 9;
+            background-color: #f6f6f6;
+        }
+
+        #spanninggrafiek {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        #spanninggrafiek .line {
+            --aspect-ratio: 21 / 9;
+            background-color: #f6f6f6;
+        }
+    </style>
+</body>
+</html>
