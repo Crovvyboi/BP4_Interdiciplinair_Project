@@ -29,19 +29,19 @@
     <div>
         <!-- Graphs -->
         <!-- 
-            Haal een lijst op met entries, filter op de laatste 10/20 entries
+            Haal een lijst op met entries (live update via websocket), filter op de laatste 10/20 entries
             Maak een rij aan voor elke opgehaalde entry.
             De maximale value is 1, '0' is 0. Waardes ertussen worden berekend met de volgende formule:
                 decimaal value = ((value * 100) / maximale value) / 100
             start is de vorige entry, end is de huidige entry
         -->
-        <div id="stroomgrafiek">
+        <div>
             <!-- Stroomgrafiek -->
-            <table class="charts-css line show-heading show-primary-axis">
+            <table id="stroomgrafiek" class="charts-css line show-heading show-primary-axis show-4-secondary-axes show-data-axes">
                 <caption> Stroom over zonnepanelen in Ampère </caption>
 
                 <!-- Vervang voor stroomdata -->
-                <tbody>
+                <tbody id="stroomBody">
                     <tr>
                         <th scope="row"> Label </th>
                         <td style="--end: 0.2;"> <span class="data"> 2 mA </span> </td>
@@ -50,13 +50,13 @@
                         <th scope="row"> Label </th>
                         <td style="--start: 0.2; --end: 0.4;"> <span class="data"> 4 mA </span> </td>
                     </tr>
-                  </tbody>
+                </tbody>
             </table>
         </div>
 
-        <div id="spanninggrafiek">
+        <div>
             <!-- Spanninggrafiek -->
-            <table class="charts-css line show-heading"> 
+            <table  id="spanninggrafiek" class="charts-css line show-heading show-primary-axis show-4-secondary-axes show-data-axes"> 
                 <caption> Spanning over zonnepanelen in Volt </caption>
 
                 <!-- Vervang voor spanningsdata -->
@@ -73,25 +73,21 @@
     <style>
         #stroomgrafiek {
             width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        #stroomgrafiek .line {
-            --aspect-ratio: 21 / 9;
-            background-color: #f6f6f6;
+            max-width: 800px;
+            margin: 50px auto;
+            --color: rgb(177, 127, 127);
+            --line-size: 5px;
         }
 
         #spanninggrafiek {
             width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
+            max-width: 800px;
+            margin: 50px auto;
+            --color: rgb(127, 127, 177);
+            --line-size: 5px;
         }
 
-        #spanninggrafiek .line {
-            --aspect-ratio: 21 / 9;
-            background-color: #f6f6f6;
-        }
+
     </style>
 </body>
 </html>
