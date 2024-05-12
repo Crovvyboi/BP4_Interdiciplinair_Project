@@ -10,64 +10,61 @@
     <title>Document</title>
 </head>
 <body>
-    <div>
-        <!-- Command bar -->
-        <button type="button" onclick="inUitklappenZonnepanelen()">
-            <!-- In/uitklappen button -->
-            In- / Uitklappen zonnepaneel
-        </button>
-        <div>
-            <!-- Status zonnepanelen -->
-            Status zonnepaneel: <i id="statusZonnepaneel"></i>
+    <div class="container">
+        <div class="row center">
+            <!-- Command bar -->
+            <button class="col s4 hoverable" type="button" onclick="inUitklappenZonnepanelen()">
+                <!-- In/uitklappen button -->
+                In- / Uitklappen zonnepaneel
+            </button>
+            <div class="col s4">
+                <!-- Status zonnepanelen -->
+                Status zonnepaneel: <i id="statusZonnepaneel"></i>
+            </div>
+            <div class="col s1 offset-s11">
+                <!-- Logo -->
+                <img src="Images/AaadlanderImgKlein.png">
+            </div>
         </div>
-        <div>
-            <!-- Logo -->
-            <img src="Images/AaadlanderImgKlein.png">
-        </div>
-    </div>
-
-    <div>
-        <!-- Graphs -->
-        <!-- 
-            Haal een lijst op met entries (live update via websocket), filter op de laatste 10/20 entries
-            Maak een rij aan voor elke opgehaalde entry.
-            De maximale value is 1, '0' is 0. Waardes ertussen worden berekend met de volgende formule:
-                decimaal value = ((value * 100) / maximale value) / 100
-            start is de vorige entry, end is de huidige entry
-        -->
-        <div>
-            <!-- Stroomgrafiek -->
-            <table id="stroomgrafiek" class="charts-css line show-heading show-primary-axis show-4-secondary-axes show-data-axes">
-                <caption> Stroom over zonnepanelen in Ampère </caption>
-
-                <!-- Vervang voor stroomdata -->
-                <tbody id="stroomBody">
-                    <tr>
-                        <th scope="row"> Label </th>
-                        <td style="--end: 0.2;"> <span class="data"> 2 mA </span> </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"> Label </th>
-                        <td style="--start: 0.2; --end: 0.4;"> <span class="data"> 4 mA </span> </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div>
-            <!-- Spanninggrafiek -->
-            <table  id="spanninggrafiek" class="charts-css line show-heading show-primary-axis show-4-secondary-axes show-data-axes"> 
-                <caption> Spanning over zonnepanelen in Volt </caption>
-
-                <!-- Vervang voor spanningsdata -->
-                <tbody>
-                    <tr>
-                        <td style="--start: 0.2; --end: 0.4;"> <span class="data"> 4 V </span> </td>
-                    </tr>
-                </tbody>
-            </table>  
+        <div class="divider"></div>
+    
+        <div class="row">
+            <!-- Graphs -->
+            <!-- 
+                Haal een lijst op met entries (live update via websocket), filter op de laatste 10/20 entries
+                Maak een rij aan voor elke opgehaalde entry.
+                De maximale value is 1, '0' is 0. Waardes ertussen worden berekend met de volgende formule:
+                    decimaal value = ((value * 100) / maximale value) / 100
+                start is de vorige entry, end is de huidige entry
+            -->
+            <div class="col s6">
+                <!-- Stroomgrafiek -->
+                <table id="stroomgrafiek" class="charts-css line show-heading show-primary-axis show-4-secondary-axes show-data-axes">
+                    <caption> Stroom over zonnepanelen in Ampère </caption>
+    
+                    <!-- Vervang voor stroomdata -->
+                    <tbody id="stroomBody">
+                        <tr>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    
+            <div class="col s6">
+                <!-- Spanninggrafiek -->
+                <table  id="spanninggrafiek" class="charts-css line show-heading show-primary-axis show-4-secondary-axes show-data-axes"> 
+                    <caption> Spanning over zonnepanelen in Volt </caption>
+    
+                    <!-- Vervang voor spanningsdata -->
+                    <tbody>
+                        <tr>
+                        </tr>
+                    </tbody>
+                </table>  
+            </div>
         </div>
     </div>
+    
 
     <script src="Scripts/homepage.js"></script>
     <style>
@@ -87,6 +84,11 @@
             --line-size: 5px;
         }
 
+        .center {
+            margin: auto;
+            height: 60%;
+            padding: 10px;
+        }
 
     </style>
 </body>
