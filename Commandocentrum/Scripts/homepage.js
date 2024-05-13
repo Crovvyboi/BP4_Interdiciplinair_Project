@@ -1,3 +1,7 @@
+var stroomArray = [];
+var spanningArray = [];
+var zonnepaneelStatus = 0;
+
 function inUitklappenZonnepanelen() {
     // Check of zonnepaneel in of uitgeklapt is
     // Zo ja, klap de zonnepanelen in. Zo nee, klap ze uit.
@@ -19,16 +23,9 @@ function inUitklappenZonnepanelen() {
         document.getElementById("statusZonnepaneel").innerHTML = "Kan niet verbinden"
     }
 
-
-    // Tijdelijk, wordt later geactiveerd via de websocket
-    popStroomGraph();
-    popSpanningGraph();
 }
 
 function popStroomGraph() {
-    // Tijdelijke array, wordt vervangen door websocket data
-    const stroomArray = [15, 6, 9, 4, 1, 7, 19, 11, 5, 18, 16, 14, 17, 20, 13];
-
     var tbodyRef = document.getElementById('stroomgrafiek').getElementsByTagName('tbody')[0];
     var newbody = document.createElement('tbody');
 
@@ -60,9 +57,6 @@ function popStroomGraph() {
 }
 
 function popSpanningGraph() {
-    // Tijdelijke array, wordt vervangen door websocket data
-    const spanningArray = [17, 1, 10, 14, 4, 16, 11, 20, 12, 13, 19, 8, 6, 2, 3];
-
     var tbodyRef = document.getElementById('spanninggrafiek').getElementsByTagName('tbody')[0];
     var newbody = document.createElement('tbody');
 
@@ -112,28 +106,33 @@ function calculateDecimal(number, maxValue){
 }
 
 // Websocket (https://javascript.info/websocket)
-webSocket = new WebSocket("ws://145.49.127.248:1880/ws/aaad2");
+socket = new WebSocket("ws://145.49.127.248:1880/ws/aaad2");
 socket.onopen = function(e) {
     alert("[open] Connection established");
   };
 
-websocket.onmessage = function(event) {
-    alert(`[message] Data received from server: ${event.data}`);
+socket.onmessage = function(event) {
+    // alert(`[message] Data received from server: ${event.data}`);
 
+    // get event json
     const msg = JSON.parse(event.data);
+
+    // process event data
     const date = new Date(msg.timestamp);
+    const stroom = msg.stroom;
+    // alert(`[message] Data received from server: ${stroom}`);
 
-    alert(`[message] Date received: ${date}`);
 
-    // Process event.data
-    switch (key) {
-        case value:
-            
-            break;
-    
-        default:
-            break;
-    }
+    // Tijdelijke array, wordt vervangen door websocket data
+    spanningArray = [17, 1, 10, 14, 4, 16, 11, 20, 12, 13, 19, 8, 6, 2, 3];
+
+    // Tijdelijke array, wordt vervangen door websocket data
+    stroomArray = [15, 6, 9, 4, 1, 7, 19, 11, 5, 18, 16, 14, 17, 20, 13];
+
+    // Update graphs
+    popStroomGraph();
+    popSpanningGraph();
+
 }
 
 socket.onclose = function(event) {
