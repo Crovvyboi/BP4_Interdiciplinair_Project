@@ -3,8 +3,8 @@ function inUitklappenZonnepanelen() {
     // Zo ja, klap de zonnepanelen in. Zo nee, klap ze uit.
 
     // To do: 
-    //      - Vervang if statements voor api checks van de status van de zonnepanelen
-    //      - Blokkeer de knop totdat een signaal is gegeven dat de zonnepanelen volledig in/uit zijn geklapt
+    //      - Vervang if statements voor de data uit de websocket
+    //      - Blokkeer de knop totdat een signaal is gegeven dat de zonnepanelen volledig in/uit zijn geklapt (wordt procentueel gedaan waarschijnlijk)
 
     if (document.getElementById("statusZonnepaneel").innerHTML == "Ingeklapt" || document.getElementById("statusZonnepaneel").innerHTML == "Kan niet verbinden") {
         // Verander status van zonnepaneel -> Uitgeklapt
@@ -26,7 +26,7 @@ function inUitklappenZonnepanelen() {
 }
 
 function popStroomGraph() {
-    // Tijdelijke array, wordt vervangen door websocket call
+    // Tijdelijke array, wordt vervangen door websocket data
     const stroomArray = [15, 6, 9, 4, 1, 7, 19, 11, 5, 18, 16, 14, 17, 20, 13];
 
     var tbodyRef = document.getElementById('stroomgrafiek').getElementsByTagName('tbody')[0];
@@ -60,7 +60,7 @@ function popStroomGraph() {
 }
 
 function popSpanningGraph() {
-    // Tijdelijke array, wordt vervangen door websocket call
+    // Tijdelijke array, wordt vervangen door websocket data
     const spanningArray = [17, 1, 10, 14, 4, 16, 11, 20, 12, 13, 19, 8, 6, 2, 3];
 
     var tbodyRef = document.getElementById('spanninggrafiek').getElementsByTagName('tbody')[0];
@@ -110,3 +110,16 @@ function calculateDecimal(number, maxValue){
 
     return decimalvalue;
 }
+
+webSocket = new WebSocket("ws://145.49.127.248:1880/ws/aaad2");
+websocket.onmessage = function(event) => {
+    switch (key) {
+        case value:
+            
+            break;
+    
+        default:
+            break;
+    }
+}
+
