@@ -111,8 +111,21 @@ function calculateDecimal(number, maxValue){
     return decimalvalue;
 }
 
+// Websocket (https://javascript.info/websocket)
 webSocket = new WebSocket("ws://145.49.127.248:1880/ws/aaad2");
-websocket.onmessage = function(event) => {
+socket.onopen = function(e) {
+    alert("[open] Connection established");
+  };
+
+websocket.onmessage = function(event) {
+    alert(`[message] Data received from server: ${event.data}`);
+
+    const msg = JSON.parse(event.data);
+    const date = new Date(msg.timestamp);
+
+    alert(`[message] Date received: ${date}`);
+
+    // Process event.data
     switch (key) {
         case value:
             
@@ -122,4 +135,18 @@ websocket.onmessage = function(event) => {
             break;
     }
 }
+
+socket.onclose = function(event) {
+    if (event.wasClean) {
+      alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+    } else {
+      // e.g. server process killed or network down
+      // event.code is usually 1006 in this case
+      alert('[close] Connection died');
+    }
+  };
+
+socket.onerror = function(error) {
+    alert(`[error]`);
+  };
 
