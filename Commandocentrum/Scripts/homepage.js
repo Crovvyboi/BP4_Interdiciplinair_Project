@@ -10,17 +10,85 @@ function inUitklappenZonnepanelen() {
     //      - Vervang if statements voor de data uit de websocket
     //      - Blokkeer de knop totdat een signaal is gegeven dat de zonnepanelen volledig in/uit zijn geklapt (wordt procentueel gedaan waarschijnlijk)
 
-    if (document.getElementById("statusZonnepaneel").innerHTML == "Ingeklapt" || document.getElementById("statusZonnepaneel").innerHTML == "Kan niet verbinden") {
-        // Verander status van zonnepaneel -> Uitgeklapt
-        document.getElementById("statusZonnepaneel").innerHTML = "Uitgeklapt"
+    // if (document.getElementById("statusZonnepaneel").innerHTML == "Ingeklapt" || document.getElementById("statusZonnepaneel").innerHTML == "Kan niet verbinden") {
+    //     // Verander status van zonnepaneel -> Uitgeklapt
+    //     document.getElementById("statusZonnepaneel").innerHTML = "Uitgeklapt"
+    // }
+    // else if (document.getElementById("statusZonnepaneel").innerHTML == "Uitgeklapt") {
+    //     // Verander status van zonnepaneel -> Ingeklapt
+    //     document.getElementById("statusZonnepaneel").innerHTML = "Ingeklapt"
+    // }
+    // else {
+    //     // Kan geen verbinding maken met de aaadlander
+    //     document.getElementById("statusZonnepaneel").innerHTML = "Kan niet verbinden"
+    // }
+
+    if (zonnepaneelStatus <= 0) {
+        // Define the API URL
+        const apiUrl = 'http://145.49.127.248:1880/aaadlander/aaad2?zonnepaneel=Uit';
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          };
+
+        // Make a GET request
+        fetch(apiUrl, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Er is iets mis gegaan tijdens het versturen van het commando.');
+            }
+            else {
+                alert(`De zonnepanelen worden uitgeklapt.`);
+
+                // Wordt vervangen door websocket data
+                zonnepaneelStatus = 100;
+
+                // Tijdelijke array, wordt vervangen door websocket data
+                spanningArray = [17, 1, 10, 14, 4, 16, 11, 20, 12, 13, 19, 8, 6, 2, 3];
+
+                // Tijdelijke array, wordt vervangen door websocket data
+                stroomArray = [15, 6, 9, 4, 1, 7, 19, 11, 5, 18, 16, 14, 17, 20, 13];
+
+                popStroomGraph();
+                popSpanningGraph();
+            }
+            
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     }
-    else if (document.getElementById("statusZonnepaneel").innerHTML == "Uitgeklapt") {
-        // Verander status van zonnepaneel -> Ingeklapt
-        document.getElementById("statusZonnepaneel").innerHTML = "Ingeklapt"
+    else if (zonnepaneelStatus >= 100) {
+        // Define the API URL
+        const apiUrl = 'http://145.49.127.248:1880/aaadlander/aaad2?zonnepaneel=In';
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          };
+
+        // Make a GET request
+        fetch(apiUrl, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Er is iets mis gegaan tijdens het versturen van het commando.');
+            }
+            else {
+                alert(`De zonnepanelen worden ingeklapt.`);
+
+                // Wordt vervangen door websocket data
+                zonnepaneelStatus = 0;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     }
-    else {
-        // Kan geen verbinding maken met de aaadlander
-        document.getElementById("statusZonnepaneel").innerHTML = "Kan niet verbinden"
+    else{
+        alert(`Wacht tot de zonnepanelen zijn in- of uitgeklapt.`);
     }
 
 }
@@ -105,43 +173,71 @@ function calculateDecimal(number, maxValue){
     return decimalvalue;
 }
 
+function firstInFirstOut(array, newEntry){
+    if (array.length < 15) {
+        // Als de array minder dan 15 entries heeft, voeg nieuwe waarde toe.
+        addToArray(array, newEntry);
+    }
+    else{
+        // als de array 15 entries heeft, verwijder de eerste, voeg de nieuwe toe.
+
+        array.shift();
+
+        addToArray(array, newEntry);
+    }
+}
+
+function addToArray(array, newEntry){
+    array.push(newEntry);
+}
+
 // Websocket (https://javascript.info/websocket)
 socket = new WebSocket("ws://145.49.127.248:1880/ws/aaad2");
 socket.onopen = function(e) {
-    alert("[open] Connection established");
+    alert("[open] Websocket geopend");
   };
 
 socket.onmessage = function(event) {
-    // alert(`[message] Data received from server: ${event.data}`);
+    // alert(`[message] Data ontvangen: ${event.data}`);
 
     // get event json
     const msg = JSON.parse(event.data);
 
-    // process event data
-    const date = new Date(msg.timestamp);
-    const stroom = msg.stroom;
-    // alert(`[message] Data received from server: ${stroom}`);
+    // verwerk alleen sensor data als de zonnepanelen zijn uitgeklapt.
+    if (zonnepaneelStatus == 100) {
+        // process event data
+        var newStroom = msg.payload.stroom / 100;
+        var newSpanning = msg.payload.spanning / 10;
 
+        // add to arrays
+        firstInFirstOut(stroomArray, newStroom)
+        firstInFirstOut(spanningArray, newSpanning);
 
-    // Tijdelijke array, wordt vervangen door websocket data
-    spanningArray = [17, 1, 10, 14, 4, 16, 11, 20, 12, 13, 19, 8, 6, 2, 3];
+        // Update graphs
+        popStroomGraph();
+        popSpanningGraph();
+    }
 
-    // Tijdelijke array, wordt vervangen door websocket data
-    stroomArray = [15, 6, 9, 4, 1, 7, 19, 11, 5, 18, 16, 14, 17, 20, 13];
-
-    // Update graphs
-    popStroomGraph();
-    popSpanningGraph();
+    // Weergeef status van zonnepaneel
+    if (zonnepaneelStatus == 100) {
+        document.getElementById("statusZonnepaneel").innerHTML = "Uitgeklapt (100%)"
+    }
+    else if (zonnepaneelStatus == 0) {
+        document.getElementById("statusZonnepaneel").innerHTML = "Ingeklapt (0%)"
+    }
+    else{
+        document.getElementById("statusZonnepaneel").innerHTML = zonnepaneelStatus + "%";
+    }
 
 }
 
 socket.onclose = function(event) {
     if (event.wasClean) {
-      alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+      alert(`[close] Connection goed gesloten, code=${event.code} reden=${event.reason}`);
     } else {
       // e.g. server process killed or network down
       // event.code is usually 1006 in this case
-      alert('[close] Connection died');
+      alert('[close] Connection gesloten');
     }
   };
 
