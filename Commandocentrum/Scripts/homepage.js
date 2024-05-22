@@ -33,7 +33,7 @@ function inUitklappenZonnepanelen() {
             }
           };
 
-        // Make a GET request
+        // Make a request
         fetch(apiUrl, requestOptions)
         .then(response => {
             if (!response.ok) {
@@ -44,15 +44,6 @@ function inUitklappenZonnepanelen() {
 
                 // Wordt vervangen door websocket data
                 zonnepaneelStatus = 100;
-
-                // Tijdelijke array, wordt vervangen door websocket data
-                spanningArray = [17, 1, 10, 14, 4, 16, 11, 20, 12, 13, 19, 8, 6, 2, 3];
-
-                // Tijdelijke array, wordt vervangen door websocket data
-                stroomArray = [15, 6, 9, 4, 1, 7, 19, 11, 5, 18, 16, 14, 17, 20, 13];
-
-                popStroomGraph();
-                popSpanningGraph();
             }
             
         })
@@ -70,7 +61,7 @@ function inUitklappenZonnepanelen() {
             }
           };
 
-        // Make a GET request
+        // Make a request
         fetch(apiUrl, requestOptions)
         .then(response => {
             if (!response.ok) {
