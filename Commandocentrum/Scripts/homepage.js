@@ -180,8 +180,8 @@ socket.onmessage = function(event) {
     // verwerk alleen sensor data als de zonnepanelen zijn uitgeklapt.
     if (zonnepaneelStatus == 100) {
         // process event data
-        var newStroom = msg.payload.stroom / 100;
-        var newSpanning = msg.payload.spanning / 10;
+        var newStroom = msg.stroom;
+        var newSpanning = msg.spanning;
 
         // add to arrays
         firstInFirstOut(stroomArray, newStroom)
@@ -218,4 +218,3 @@ socket.onclose = function(event) {
 socket.onerror = function(error) {
     alert(`[error]`);
   };
-
