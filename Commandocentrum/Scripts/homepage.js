@@ -6,23 +6,6 @@ function inUitklappenZonnepanelen() {
     // Check of zonnepaneel in of uitgeklapt is
     // Zo ja, klap de zonnepanelen in. Zo nee, klap ze uit.
 
-    // To do: 
-    //      - Vervang if statements voor de data uit de websocket
-    //      - Blokkeer de knop totdat een signaal is gegeven dat de zonnepanelen volledig in/uit zijn geklapt (wordt procentueel gedaan waarschijnlijk)
-
-    // if (document.getElementById("statusZonnepaneel").innerHTML == "Ingeklapt" || document.getElementById("statusZonnepaneel").innerHTML == "Kan niet verbinden") {
-    //     // Verander status van zonnepaneel -> Uitgeklapt
-    //     document.getElementById("statusZonnepaneel").innerHTML = "Uitgeklapt"
-    // }
-    // else if (document.getElementById("statusZonnepaneel").innerHTML == "Uitgeklapt") {
-    //     // Verander status van zonnepaneel -> Ingeklapt
-    //     document.getElementById("statusZonnepaneel").innerHTML = "Ingeklapt"
-    // }
-    // else {
-    //     // Kan geen verbinding maken met de aaadlander
-    //     document.getElementById("statusZonnepaneel").innerHTML = "Kan niet verbinden"
-    // }
-
     if (zonnepaneelStatus <= 0) {
         // Define the API URL
         const apiUrl = 'http://145.49.127.248:1880/aaadlander/aaad2?zonnepaneel=Uit';
@@ -44,6 +27,15 @@ function inUitklappenZonnepanelen() {
 
                 // Wordt vervangen door websocket data
                 zonnepaneelStatus = 100;
+
+                // Tijdelijke array, wordt vervangen door websocket data
+                spanningArray = [17, 1, 10, 14, 4, 16, 11, 20, 12, 13, 19, 8, 6, 2, 3];
+
+                // Tijdelijke array, wordt vervangen door websocket data
+                stroomArray = [15, 6, 9, 4, 1, 7, 19, 11, 5, 18, 16, 14, 17, 20, 13];
+
+                popStroomGraph();
+                popSpanningGraph();
             }
             
         })
