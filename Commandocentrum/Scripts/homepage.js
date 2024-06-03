@@ -1,6 +1,41 @@
 var stroomArray = [];
 var spanningArray = [];
 var zonnepaneelStatus = 0;
+var canCount = false;
+var count = "up";
+
+let interval = setInterval(function (params) {
+    countStatus()
+}, 800)
+
+function countStatus() {
+    var random = Math.floor(Math.random() * (7 - 3) + 3);
+    if (canCount) {
+        if (count == "up") {
+            zonnepaneelStatus += random;
+        }
+        else if (count == "down") {
+            zonnepaneelStatus -= random;
+        }
+
+        document.getElementById("statusZonnepaneel").innerHTML = zonnepaneelStatus + "%";
+
+        if (zonnepaneelStatus <= 0 || zonnepaneelStatus >= 100) {
+            canCount = false;
+
+            if (zonnepaneelStatus >= 100) {
+                zonnepaneelStatus = 100;
+                document.getElementById("statusZonnepaneel").innerHTML = "Uitgeklapt (100%)"
+            }
+            else if(zonnepaneelStatus <= 0){
+                zonnepaneelStatus = 0;
+                document.getElementById("statusZonnepaneel").innerHTML = "Ingeklapt (0%)"
+            }
+        }
+
+        
+    }
+}
 
 function inUitklappenZonnepanelen() {
     // Check of zonnepaneel in of uitgeklapt is
@@ -25,8 +60,11 @@ function inUitklappenZonnepanelen() {
             else {
                 alert(`De zonnepanelen worden uitgeklapt.`);
 
-                // Wordt vervangen door websocket data
-                zonnepaneelStatus = 100;
+                // // Wordt vervangen door websocket data
+                // zonnepaneelStatus = 100;
+
+                count = "up";
+                canCount = true;
             }
             
         })
@@ -53,8 +91,11 @@ function inUitklappenZonnepanelen() {
             else {
                 alert(`De zonnepanelen worden ingeklapt.`);
 
-                // Wordt vervangen door websocket data
-                zonnepaneelStatus = 0;
+                // // Wordt vervangen door websocket data
+                // zonnepaneelStatus = 0;
+
+                count = "down";
+                canCount = true;
             }
         })
         .catch(error => {
@@ -178,7 +219,7 @@ socket.onmessage = function(event) {
     const msg = JSON.parse(event.data);
 
     // verwerk alleen sensor data als de zonnepanelen zijn uitgeklapt.
-    if (zonnepaneelStatus == 100) {
+    if (zonnepaneelStatus > 0) {
         // process event data
         var newStroom = msg.stroom;
         var newSpanning = msg.spanning;
@@ -192,16 +233,6 @@ socket.onmessage = function(event) {
         popSpanningGraph();
     }
 
-    // Weergeef status van zonnepaneel
-    if (zonnepaneelStatus == 100) {
-        document.getElementById("statusZonnepaneel").innerHTML = "Uitgeklapt (100%)"
-    }
-    else if (zonnepaneelStatus == 0) {
-        document.getElementById("statusZonnepaneel").innerHTML = "Ingeklapt (0%)"
-    }
-    else{
-        document.getElementById("statusZonnepaneel").innerHTML = zonnepaneelStatus + "%";
-    }
 
 }
 
