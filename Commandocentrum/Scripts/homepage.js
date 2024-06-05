@@ -6,7 +6,7 @@ var count = "up";
 
 let interval = setInterval(function (params) {
     countStatus()
-}, 800)
+}, 300)
 
 function countStatus() {
     var random = Math.floor(Math.random() * (7 - 3) + 3);
@@ -43,7 +43,7 @@ function inUitklappenZonnepanelen() {
 
     if (zonnepaneelStatus <= 0) {
         // Define the API URL
-        const apiUrl = 'http://145.49.127.248:1880/aaadlander/aaad2?zonnepaneel=Uit';
+        const apiUrl = 'http://145.49.127.248:1880/aaadlander/aaad2?zonnepaneelStatus=uit';
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -58,7 +58,7 @@ function inUitklappenZonnepanelen() {
             throw new Error('Er is iets mis gegaan tijdens het versturen van het commando.');
             }
             else {
-                alert(`De zonnepanelen worden uitgeklapt.`);
+                // alert(`De zonnepanelen worden uitgeklapt.`);
 
                 // // Wordt vervangen door websocket data
                 // zonnepaneelStatus = 100;
@@ -74,7 +74,7 @@ function inUitklappenZonnepanelen() {
     }
     else if (zonnepaneelStatus >= 100) {
         // Define the API URL
-        const apiUrl = 'http://145.49.127.248:1880/aaadlander/aaad2?zonnepaneel=In';
+        const apiUrl = 'http://145.49.127.248:1880/aaadlander/aaad2?zonnepaneelStatus=in';
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -89,7 +89,7 @@ function inUitklappenZonnepanelen() {
             throw new Error('Er is iets mis gegaan tijdens het versturen van het commando.');
             }
             else {
-                alert(`De zonnepanelen worden ingeklapt.`);
+                // alert(`De zonnepanelen worden ingeklapt.`);
 
                 // // Wordt vervangen door websocket data
                 // zonnepaneelStatus = 0;

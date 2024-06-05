@@ -38,4 +38,4 @@ function addToArray(array, newEntry){
 }
 
 
-module.exports= {findMax, calculateDecimal, firstInFirstOut, addToArray};
+// module.exports= {findMax, calculateDecimal, firstInFirstOut, addToArray};
