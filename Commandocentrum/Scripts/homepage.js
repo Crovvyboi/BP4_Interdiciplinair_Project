@@ -6,7 +6,7 @@ var count = "up";
 
 let interval = setInterval(function (params) {
     countStatus()
-}, 300)
+}, 100)
 
 function countStatus() {
     var random = Math.floor(Math.random() * (7 - 3) + 3);
@@ -219,19 +219,19 @@ socket.onmessage = function(event) {
     const msg = JSON.parse(event.data);
 
     // verwerk alleen sensor data als de zonnepanelen zijn uitgeklapt.
-    if (zonnepaneelStatus > 0) {
-        // process event data
-        var newStroom = msg.stroom;
-        var newSpanning = msg.spanning;
 
-        // add to arrays
-        firstInFirstOut(stroomArray, newStroom)
-        firstInFirstOut(spanningArray, newSpanning);
+    // process event data
+    var newStroom = msg.stroom;
+    var newSpanning = msg.spanning;
 
-        // Update graphs
-        popStroomGraph();
-        popSpanningGraph();
-    }
+    // add to arrays
+    firstInFirstOut(stroomArray, newStroom)
+    firstInFirstOut(spanningArray, newSpanning);
+
+    // Update graphs
+    popStroomGraph();
+    popSpanningGraph();
+
 
 
 }
